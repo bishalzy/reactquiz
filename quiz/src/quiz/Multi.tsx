@@ -91,7 +91,7 @@ const Multi:React.FC = () => {
                     <button className='next-btn' onClick={handleNextbtn}>Next</button>
 
             </div>
-            <div className="controls">score of another player</div>
+            <div className="controls">0</div>
 
        
         </>
