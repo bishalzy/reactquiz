@@ -34,6 +34,9 @@ const Single: React.FC = () => {
   }, []);
 
   const handleNextbtn = () => {
+    setSelectedIndex(null);
+    if (selectedIndex === null) return;
+
     if (selectedOption.current) {
       score.current++
 
@@ -41,7 +44,6 @@ const Single: React.FC = () => {
       score.current--;
     }
     findQuestion();
-    setSelectedIndex(null);
 
     selectedOption.current = null;
   }
