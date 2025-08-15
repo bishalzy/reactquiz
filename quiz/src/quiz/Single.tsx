@@ -61,27 +61,31 @@ const Single: React.FC = () => {
 
   return (
     <>
+      <div className="quiz-box">
+        <div className="question-option-container">
+          <div className="question-box">
+            <h2>{currentQuiz?.question ? currentQuiz?.question : "questoin"}</h2>
+          </div>
+          <div className="option-box">
+            {currentQuiz?.options.map((options, index) => {
+              return <div key={index} ref={optionRef} className={`${index === selectedIndex ? "selected options" : "options"}`} onClick={() => handleOptionSelect(index)}>{options}</div>
+            })}
+
+          </div>
+        </div>
+
+        <div className="btn-container">
+          <button className='next-btn' onClick={handleNextbtn}>Next</button>
+        </div>
+
+      </div>
       <div className="score-board">
         <h2>
           Score
         </h2>
-        {score.current}
+        <h2>{score.current}</h2>
       </div>
-      <div className="quiz-box">
-        <div className="question-box">
-          {currentQuiz?.question ? currentQuiz?.question : "questoin"}
-        </div>
-        <div className="option-box">
-          {currentQuiz?.options.map((options, index) => {
-            return <div key={index} ref={optionRef} className={`${index === selectedIndex ? "selected" : "options"}`} onClick={() => handleOptionSelect(index)}>{options}</div>
-          })}
-
-        </div>
-
-        <button className='next-btn' onClick={handleNextbtn}>Next</button>
-
-      </div>
-      <div className="controls">THis is single mode</div>
+      {/*<div className="controls">THis is single mode</div>*/}
 
     </>
   )
