@@ -79,7 +79,6 @@ const Single: React.FC = () => {
         <div className="btn-container">
           <button className='next-btn' onClick={handleNextbtn}>Next</button>
         </div>
-
       </div>
       <div className="score-board">
         <h2>
@@ -88,7 +87,6 @@ const Single: React.FC = () => {
         <h2>{score.current}</h2>
       </div>
       {/*<div className="controls">THis is single mode</div>*/}
-
     </>
   )
 }
