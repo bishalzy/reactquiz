@@ -70,7 +70,7 @@ const Single: React.FC = () => {
           </div>
           <div className="option-box">
             {currentQuiz?.options.map((options, index) => {
-              return <div key={index} ref={optionRef} className={`${index === selectedIndex ? "selected options" : "options"}`} onClick={() => handleOptionSelect(index)}>{options}</div>
+              return <div key={index} ref={optionRef} className={`${index === selectedIndex ? "selected" : "options"}`} onClick={() => handleOptionSelect(index)}>{options}</div>
             })}
 
           </div>

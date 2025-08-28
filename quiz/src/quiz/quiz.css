@@ -27,7 +27,7 @@
     background-color: #f5f5f5;
     gap: 2rem;
     padding: 1rem 2rem;
-    min-height: 100vh;
+    min-height: 85vh;
   }
   
   .score-board {
@@ -114,10 +114,22 @@
   border: 2px solid rgb(0, 0, 0, 0.9);
  }
 
- .selected, .selected:hover {
+ .selected {
+    display: flex;
+    height: 3rem;
+    border-radius: 5px;
+    padding: 0 1rem;
+    transition-duration: 150ms;
+    align-items: center;
+    border: 2px solid rgb(0, 0, 0, 0.3);
     background-color: gray;
     color: white;
  }
+
+ /* .selected:hover {
+    background-color: gray;
+    color: white;
+ } */
 
  .multiplayer-score-container {
    display: flex;
