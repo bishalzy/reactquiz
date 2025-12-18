@@ -5,6 +5,8 @@ import { Link, Outlet } from 'react-router-dom';
 const Quiz:React.FC = () => {
 
 
+ 
+
 
 
     return(
@@ -16,7 +18,7 @@ const Quiz:React.FC = () => {
                 
             </div>
            
-            <div className="footer">2025 All Rights Reserved @</div>
+            <div className="footer">{new Date().getFullYear()} All Rights Reserved @</div>
 
         </div>
     )
