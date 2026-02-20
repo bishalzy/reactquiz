@@ -1,33 +1,44 @@
 import './quiz.css';
-import questions from '../questions.ts';
-
+// import questions from '../questions.ts';
+import { v2questions } from '../questions.ts';
+import {Question} from '../types/question.type.ts';
 import { useState, useEffect, useRef } from "react";
 
-type Question = {
-  question: string;
-  options: string[];
-  correct: number;
-}
+// type Question = {
+//   question: string;
+//   options: string[];
+//   correct: number;
+// }
 
 const Single: React.FC = () => {
   const [currentQuiz, setCurrentQuiz] = useState<Question | null>(null);
-  const questionLength = questions.length - 1;
+  const [answers, setAnswers] = useState<string[]>([]);
+  const [questionIndex, setQuestionIndex] = useState<number>(0);
+  const questionLength = v2questions.length - 1;
   const score = useRef<number>(0);
   const selectedOption = useRef<boolean | null>(false);
-  const questionIndex = useRef<number>(0);
 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const optionRef = useRef(null);
 
   const findQuestion = () => {
-    if (questionIndex.current <= questionLength) {
-      setCurrentQuiz(questions[questionIndex.current]);
-      questionIndex.current++;
+    let currentQuestion;
+    if (questionIndex <= questionLength) {
+      console.log(questionIndex);
+      setCurrentQuiz(v2questions[questionIndex]);
+      currentQuestion = v2questions[questionIndex];
+      setQuestionIndex(prev => prev + 1);
     } else {
-      questionIndex.current = 0;
-      setCurrentQuiz(questions[questionIndex.current]);
-      questionIndex.current++;
+      //TODO : show result and reset quiz
+      console.log("Quiz ended. Final score:", score.current);
+      setQuestionIndex(0);
+      setCurrentQuiz(v2questions[0]);
+      currentQuestion = v2questions[0];
+      setQuestionIndex(1);
     }
+
+    const options = [...currentQuestion?.incorrect_answers!, currentQuestion?.correct_answer!];
+    setAnswers(options.sort(() => Math.random() - 0.5));
   }
   useEffect(() => {
     findQuestion();
@@ -52,7 +63,7 @@ const Single: React.FC = () => {
     console.log(index);
     setSelectedIndex(index);
 
-    if (index == currentQuiz?.correct) {
+    if (index == answers.indexOf(currentQuiz?.correct_answer!)) {
       selectedOption.current = true;
       console.log(selectedOption.current)
 
@@ -69,7 +80,7 @@ const Single: React.FC = () => {
             <h2>{currentQuiz?.question ? currentQuiz?.question : "questoin"}</h2>
           </div>
           <div className="option-box">
-            {currentQuiz?.options.map((options, index) => {
+            {answers.map((options, index) => {
               return <div key={index} ref={optionRef} className={`${index === selectedIndex ? "selected" : "options"}`} onClick={() => handleOptionSelect(index)}>{options}</div>
             })}
 
