@@ -2,11 +2,11 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 
-import Single from './quiz/Single.tsx';
-import Multi from './quiz/Multi.tsx'
-import Quiz from './quiz/Quiz.tsx';
+import Single from './components/Single.tsx';
+import Multi from './components/Multi.tsx'
+import Quiz from './components/Quiz.tsx';
 import { createBrowserRouter,RouterProvider } from 'react-router-dom';
-import Default from './quiz/Default.tsx';
+import Default from './components/Default.tsx';
 
 
 const router = createBrowserRouter([
