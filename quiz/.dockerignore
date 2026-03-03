@@ -1,0 +1,14 @@
+Dockerfile
+README.md
+.dockerignore
+.gitignore
+.gitattributes
+.idea
+.editorconfig
+.eslintrc
+.vscode/
+.env
+backend
+dist
+doc
+node_modules
