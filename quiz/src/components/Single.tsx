@@ -2,7 +2,7 @@ import './quiz.css';
 // import questions from '../questions.ts';
 import { v2questions } from '../questions.ts';
 import {Question} from '../types/question.type.ts';
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 // type Question = {
 //   question: string;
@@ -14,88 +14,92 @@ const Single: React.FC = () => {
   const [currentQuiz, setCurrentQuiz] = useState<Question | null>(null);
   const [answers, setAnswers] = useState<string[]>([]);
   const [questionIndex, setQuestionIndex] = useState<number>(0);
-  const questionLength = v2questions.length - 1;
-  const score = useRef<number>(0);
-  const selectedOption = useRef<boolean | null>(false);
+  const [gameOver, setGameOver] = useState<boolean>(true);
+  const [score, setScore] = useState<number>(0);
+  const [selectedOption, setSelectedOption] = useState<boolean | null>(null);
 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const optionRef = useRef(null);
 
-  const findQuestion = () => {
-    let currentQuestion;
-    if (questionIndex <= questionLength) {
-      console.log(questionIndex);
-      setCurrentQuiz(v2questions[questionIndex]);
-      currentQuestion = v2questions[questionIndex];
-      setQuestionIndex(prev => prev + 1);
-    } else {
-      //TODO : show result and reset quiz
-      console.log("Quiz ended. Final score:", score.current);
-      setQuestionIndex(0);
-      setCurrentQuiz(v2questions[0]);
-      currentQuestion = v2questions[0];
-      setQuestionIndex(1);
+  const loadQuestion = useCallback((index: number) => {
+    if (index >= v2questions.length) {
+      setGameOver(true);
+      setCurrentQuiz(null);
+      setAnswers([]);
+      return;
     }
 
-    const options = [...currentQuestion?.incorrect_answers!, currentQuestion?.correct_answer!];
+    const question = v2questions[index];
+    const options = [...question.incorrect_answers, question.correct_answer];
+    setQuestionIndex(index);
+    setCurrentQuiz(question);
     setAnswers(options.sort(() => Math.random() - 0.5));
-  }
-  useEffect(() => {
-    findQuestion();
+    setSelectedIndex(null);
+    setSelectedOption(null);
   }, []);
 
+  useEffect(() => {
+    loadQuestion(0);
+  }, [loadQuestion]);
+
   const handleNextbtn = () => {
-    setSelectedIndex(null);
-    if (selectedIndex === null) return;
+    if (selectedIndex === null || selectedOption === null) return;
 
-    if (selectedOption.current) {
-      score.current++
+    const nextScore = score + (selectedOption ? 1 : -1);
+    setScore(nextScore);
+    const nextIndex = questionIndex + 1;
 
-    } else if (selectedOption.current === false) {
-      score.current--;
+    if (nextIndex >= v2questions.length) {
+      alert(`Quiz Over! Your final score is: ${nextScore}`);
+      setGameOver(true);
+      return;
     }
-    findQuestion();
 
-    selectedOption.current = null;
+    loadQuestion(nextIndex);
   }
 
   const handleOptionSelect = (index: number) => {
-    console.log(index);
+    if (!currentQuiz) return;
     setSelectedIndex(index);
+    setSelectedOption(index === answers.indexOf(currentQuiz.correct_answer));
+  }
 
-    if (index == answers.indexOf(currentQuiz?.correct_answer!)) {
-      selectedOption.current = true;
-      console.log(selectedOption.current)
-
-    } else {
-      selectedOption.current = false;
-    }
+  const startGame = (): void => {
+    setScore(0);
+    setGameOver(false);
+    loadQuestion(0);
   }
 
   return (
     <>
-      <div className="quiz-box">
-        <div className="question-option-container">
-          <div className="question-box">
-            <h2>{currentQuiz?.question ? currentQuiz?.question : "questoin"}</h2>
-          </div>
-          <div className="option-box">
-            {answers.map((options, index) => {
-              return <div key={index} ref={optionRef} className={`${index === selectedIndex ? "selected" : "options"}`} onClick={() => handleOptionSelect(index)}>{options}</div>
-            })}
 
-          </div>
+      {gameOver ? (
+        <div className="game-over">
+          <h2>Start new Game</h2>
+          <button onClick={startGame}>Start Quiz</button>
         </div>
+      ):(<div className="quiz-box">
+          <div className="question-option-container">
+            <div className="question-box">
+              <h2>{currentQuiz?.question ? currentQuiz?.question : "questoin"}</h2>
+            </div>
+            <div className="option-box">
+              {answers.map((options, index) => {
+                return <div key={index} className={`${index === selectedIndex ? "selected" : "options"}`} onClick={() => handleOptionSelect(index)}>{options}</div>
+              })}
 
-        <div className="btn-container">
-          <button className='next-btn' onClick={handleNextbtn}>Next</button>
-        </div>
-      </div>
+            </div>
+          </div>
+
+          <div className="btn-container">
+            <button className='next-btn' onClick={handleNextbtn}>Next</button>
+          </div>
+        </div>)}
+
       <div className="score-board">
         <h2>
           Score
         </h2>
-        <h2>{score.current}</h2>
+        <h2>{score}</h2>
       </div>
       {/*<div className="controls">THis is single mode</div>*/}
     </>
