@@ -2,6 +2,7 @@ import './quiz.css';
 // import questions from '../questions.ts';
 // import { v2questions } from '../questions.ts';
 import fetchQuestions from '../services/question.api.ts';
+import cleanQuestions from '../utils/cleanQuestions.ts';
 import {Question} from '../types/question.type.ts';
 import { useRef,useState, useEffect, useCallback } from "react";
 
@@ -51,8 +52,9 @@ const Single: React.FC = () => {
         
         // Add validation to check if results exists
         if (questions && questions.results && Array.isArray(questions.results)) {
-          v2questions.current = questions.results;
-          setIsQuizReady(questions.results.length > 0);
+          const parsedQuestions = cleanQuestions(questions.results);
+          v2questions.current = parsedQuestions;
+          setIsQuizReady(parsedQuestions.length > 0);
         } else {
           console.error("Invalid response structure:", questions);
           setIsQuizReady(false);
@@ -69,7 +71,7 @@ const Single: React.FC = () => {
     return () => {
       isMounted = false;
     };
-  }, [loadQuestion]);
+  }, []);
 
   const handleNextbtn = () => {
     if (selectedIndex === null || selectedOption === null) return;
