@@ -2,11 +2,11 @@
 import { createRoot } from 'react-dom/client'
 import './index.css'
 
-import Single from './components/Single.tsx';
-import Multi from './components/Multi.tsx'
-import Quiz from './components/Quiz.tsx';
+import Single from './pages/Single.tsx';
+import Multi from './pages/Multi.tsx'
+import Quiz from './pages/Quiz.tsx';
 import { createBrowserRouter,RouterProvider } from 'react-router-dom';
-import Default from './components/Default.tsx';
+import Default from './pages/Default.tsx';
 
 
 const router = createBrowserRouter([
