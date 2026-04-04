@@ -4,7 +4,7 @@ const GithubAuth = () => {
   
 
   const handleGithubLogin = () => {
-    // const clientId = import.meta.env.VITE_CLIENT_ID;
+    // const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID;
     // if(!clientId){
     //   console.error("Client ID is not defined in environment variables");
     //   return;
