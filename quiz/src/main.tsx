@@ -5,6 +5,7 @@ import './index.css'
 import Single from './pages/Single.tsx';
 import Multi from './pages/Multi.tsx'
 import Quiz from './pages/Quiz.tsx';
+import Profile from './pages/Profile.tsx';
 import { createBrowserRouter,RouterProvider } from 'react-router-dom';
 import Default from './pages/Default.tsx';
 
@@ -16,6 +17,7 @@ const router = createBrowserRouter([
     children:[
       {path:'singleplayer',element:<Single/>},
       {path:'multiplayer',element:<Multi/>},
+      {path:'profile',element:<Profile/>},
       {index:true,element:<Default/>}
     ]
   }
