@@ -1,17 +1,11 @@
 import "./allcomponent.css";
-
+import Endpoints from "../config/endpoints.config";
 
 const GithubAuth = () => {
   
 
   const handleGithubLogin = () => {
-    const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID;
-    if(!clientId){
-      console.error("Client ID is not defined in environment variables");
-      return;
-    }
-    window.location.href = `${import.meta.env.VITE_GITHUB_REDIRECT_URI}?scope=user:email&client_id=${clientId}`;
-    // alert("Github login functionality is currently unavailable. Please check back later.");
+    window.location.href = Endpoints.githubLogin;
   };
 
 
