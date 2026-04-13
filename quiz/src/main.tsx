@@ -8,6 +8,7 @@ import Quiz from './pages/Quiz.tsx';
 import Profile from './pages/Profile.tsx';
 import { createBrowserRouter,RouterProvider } from 'react-router-dom';
 import Default from './pages/Default.tsx';
+import AuthGuard from './components/authGuard.tsx';
 
 
 const router = createBrowserRouter([
@@ -16,9 +17,9 @@ const router = createBrowserRouter([
     element: <Quiz/>,
     children:[
       {path:'singleplayer',element:<Single/>},
-      {path:'multiplayer',element:<Multi/>},
+      {path:'multiplayer',element:<AuthGuard><Multi/></AuthGuard>},
       {path:'profile',element:<Profile/>},
-      {index:true,element:<Default/>}
+      {path:'/',index:true,element:<Default/>}
     ]
   }
 ])
