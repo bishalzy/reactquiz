@@ -1,0 +1,23 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.logingithub{
+    border: none;
+    border-radius: 5vh;
+    cursor: pointer;
+    padding: 0;
+    overflow: hidden;
+    flex-shrink: 0;
+    height: auto;
+    width: 4vw;
+}
+
+.githubimage{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}

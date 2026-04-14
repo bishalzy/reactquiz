@@ -1,6 +1,6 @@
 import './quiz.css';
 import { Link, Outlet } from 'react-router-dom';
-import GithubAuth from '../components/githubauth';
+import Avatar from '../components/avatar';
 
 const Quiz:React.FC = () => {
 
@@ -12,9 +12,10 @@ const Quiz:React.FC = () => {
     return(
         <div className="quiz">
             <div className="nav-bar">
+                <Link to={"/"} className='change-mode'><p>Home</p></Link>
                 <Link to={"/singleplayer"} className='change-mode'><p>SinglePlayer MOde</p></Link>
                 <Link to={"/multiplayer"} className='change-mode'><p>MultiPlayer MOde</p></Link>
-                <GithubAuth/>
+                <Avatar/>
             </div>
             <div className="box">
 
