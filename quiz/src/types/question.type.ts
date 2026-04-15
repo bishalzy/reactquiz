@@ -7,7 +7,7 @@ export type QuestionRequest = {
 }
 
 export type Question = {
-  type: "multiple" | "boolean"; // if you also expect true/false questions
+  type: "multiple" | "boolean";
   difficulty: "easy" | "medium" | "hard";
   category: string;
   question: string;

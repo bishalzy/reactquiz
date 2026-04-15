@@ -9,6 +9,7 @@ import Profile from './pages/Profile.tsx';
 import { createBrowserRouter,RouterProvider } from 'react-router-dom';
 import Default from './pages/Default.tsx';
 import AuthGuard from './components/authGuard.tsx';
+import { AuthProvider } from './context/authContext.ts';
 
 
 const router = createBrowserRouter([
@@ -26,7 +27,8 @@ const router = createBrowserRouter([
 
 
 createRoot(document.getElementById('root')!).render(
-  
+  <AuthProvider>
     <RouterProvider router={router}/>
+  </AuthProvider>
   
 )
