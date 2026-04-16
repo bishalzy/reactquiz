@@ -26,6 +26,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 		try {
 			const userData = await AuthCheck();
 			setUser(userData ?? null);
+			localStorage.setItem("avatar", userData?.avatar_url ?? "")
             console.log("User data set in context:", userData);
 		} catch {
 			setUser(null);

@@ -1,5 +1,8 @@
 export type UserAuthData = {
-    user_id:number,
+    avatar_url:string,
+    created_at:string,
+    id:number,
     username:string,
-    session_id:number,
+    github_id:number,
+    email:string,
 }

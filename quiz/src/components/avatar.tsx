@@ -12,7 +12,7 @@ const Avatar = () => {
 
 
   return (
-    <div>
+    <div className="avatar-container">
       {user ? (
         <ProfileAvatar />
       ) : (

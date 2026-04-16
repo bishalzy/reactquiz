@@ -19,7 +19,7 @@ const router = createBrowserRouter([
     children:[
       {path:'singleplayer',element:<Single/>},
       {path:'multiplayer',element:<AuthGuard><Multi/></AuthGuard>},
-      {path:'profile',element:<Profile/>},
+      {path:'profile',element:<AuthGuard><Profile/></AuthGuard>},
       {path:'/',index:true,element:<Default/>}
     ]
   }
