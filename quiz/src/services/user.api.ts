@@ -46,3 +46,19 @@ export const logoutUser = async () => {
         throw error;
     }
 };
+
+export const refreshUserToken = async () => {
+    try {
+        const response = await fetch(Endpoints.refreshAccessToken, {
+            method: "GET",
+            credentials: "include",
+        });
+        if (!response.ok) {
+            throw new Error("Failed to refresh token");
+        }
+        
+    } catch (error) {
+        console.error("Error refreshing token:", error);
+        throw error;
+    }
+};
