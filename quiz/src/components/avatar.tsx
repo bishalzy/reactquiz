@@ -1,9 +1,10 @@
 import "./allcomponent.css";
 import Endpoints from "../config/endpoints.config";
-
+import useAuth from "../hooks/useAuth";
+import ProfileAvatar from "./profile/profile.avatar";
 
 const Avatar = () => {
-  
+  const { user } = useAuth();
 
   const handleGithubLogin = () => {
     window.location.href = Endpoints.githubLogin;
@@ -11,7 +12,10 @@ const Avatar = () => {
 
 
   return (
-    <div>
+    <div className="avatar-container">
+      {user ? (
+        <ProfileAvatar />
+      ) : (
       <div className="logingithub" onClick={handleGithubLogin}>
         <img
           src="/github.png"
@@ -19,6 +23,7 @@ const Avatar = () => {
           className="githubimage"
         />
       </div>
+      )}
     </div>
   );
 };

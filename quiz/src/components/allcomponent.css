@@ -1,9 +1,9 @@
-
+/* 
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
+} */
 
 .logingithub{
     border: none;
@@ -13,11 +13,15 @@
     overflow: hidden;
     flex-shrink: 0;
     height: auto;
-    width: 4vw;
+    width: 2vw;
 }
 
 .githubimage{
     object-fit: cover;
     width: 100%;
     height: 100%;
+}
+
+.avatar-container{
+    position: relative;
 }

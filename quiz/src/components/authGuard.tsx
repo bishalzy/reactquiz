@@ -1,12 +1,18 @@
 
 import React from "react";
 import Unauthorized from "./Unauthorized";
+import Loading from "./Loading";
+import useAuth from "../hooks/useAuth";
 
 
 const AuthGuard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const isAuthenticated = !!localStorage.getItem("github_token");
+  const { user, loading } = useAuth();
 
-  if (!isAuthenticated) {
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (!user) {
     return <Unauthorized />;
   }
 
