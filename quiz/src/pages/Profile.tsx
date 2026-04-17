@@ -31,12 +31,24 @@ const Profile = () => {
 
 
   return (
-    <div>
-      <h1>Profile</h1>
-      <h2>{userProfile?.username}</h2>
-      <h2>{userProfile?.email}</h2>
-      <img src={userProfile?.avatar_url ?? "/default-avatar.png"} alt="Profile" />
-      <p>This is the profile page.</p>
+    <div className="profile-container">
+      <div className="profile-info">
+        <img
+          className="profile-avatar"
+          src={userProfile?.avatar_url ?? "/default-avatar.png"}
+          alt="Profile"
+        />
+        <h1>Profile</h1>
+        <div className="profile-meta">
+          <h2>{userProfile?.username ?? "Guest User"}</h2>
+          <p>{userProfile?.email ?? "No email available"}</p>
+        </div>
+      </div>
+      <div className="game-history">
+        <h1>Game History</h1>
+        <p>Game history will be displayed here.</p> 
+      </div>
+
     </div>
   );
 };
