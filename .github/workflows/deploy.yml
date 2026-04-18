@@ -34,7 +34,7 @@ jobs:
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.VM_HOST }}
-          username: ${{ secrets.VM_USERNAME }}
+          username: ${{ secrets.VM_USER }}
           key: ${{ secrets.VM_SSH_KEY }}
           source: "quiz/dist/**"
           target: "/var/www/html"
