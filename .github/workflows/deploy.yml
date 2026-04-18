@@ -30,11 +30,15 @@ jobs:
       - name: Build React app
         run: npm run build
 
-      - name: Copy files to Azure VM via SCP
-        uses: appleboy/scp-action@v0.1.7
+      - name: Deploy to vm
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.VM_HOST }}
           username: ${{ secrets.VM_USER }}
           key: ${{ secrets.VM_SSH_KEY }}
-          source: "quiz/dist/**"
-          target: "/var/www/html"
+          script: |
+            cd reactquiz
+            git pull
+            cd quiz
+            npm run build
+            sudo cp -rf dist/* /var/www/html
