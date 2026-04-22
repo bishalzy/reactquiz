@@ -47,9 +47,10 @@ const Single: React.FC = () => {
 
     const initializeQuiz = async () => {
       try {
-        const questions = await fetchQuestions({});
-        if (!isMounted) return;
         
+        if (!isMounted) return;
+        if(!gameOver) return;
+        const questions = await fetchQuestions({});
         // Add validation to check if results exists
         if (questions && questions.results && Array.isArray(questions.results)) {
           const parsedQuestions = cleanQuestions(questions.results);
@@ -71,7 +72,7 @@ const Single: React.FC = () => {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [gameOver]);
 
   const handleNextbtn = () => {
     if (selectedIndex === null || selectedOption === null) return;

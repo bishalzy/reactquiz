@@ -6,6 +6,7 @@ const Endpoints = {
     fetchUser: `${import.meta.env.VITE_API_URL}/user/profile`,
     gameHistory: `${import.meta.env.VITE_API_URL}/user/gamehistory`,
     refreshAccessToken: `${import.meta.env.VITE_API_URL}/auth/refresh`,
+    multiplayerSocket: `${import.meta.env.VITE_API_URL}/ws/multiplayer`,
 }
 
 
