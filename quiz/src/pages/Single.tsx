@@ -101,6 +101,7 @@ const Single: React.FC = () => {
     setScore(0);
     setGameOver(false);
     loadQuestion(0);
+    setIsQuizReady(false);
   }
 
   return (
