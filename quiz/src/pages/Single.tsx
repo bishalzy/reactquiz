@@ -1,6 +1,7 @@
 import './quiz.css';
 // import questions from '../questions.ts';
 // import { v2questions } from '../questions.ts';
+import Summery from '../components/Summery.tsx';
 import fetchQuestions from '../services/question.api.ts';
 import cleanQuestions from '../utils/cleanQuestions.ts';
 import {Question} from '../types/question.type.ts';
@@ -21,6 +22,8 @@ const Single: React.FC = () => {
   const [score, setScore] = useState<number>(0);
   const [selectedOption, setSelectedOption] = useState<boolean | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [showSummery, setShowSummery] = useState<boolean>(false);
+  const [userAnswer, setUserAnswer] = useState<number[]>([]);
   const v2questions = useRef<Question[]>([]);
 
   const loadQuestion = useCallback(async (index: number) => {
@@ -76,13 +79,14 @@ const Single: React.FC = () => {
 
   const handleNextbtn = () => {
     if (selectedIndex === null || selectedOption === null) return;
-
+    setUserAnswer((prev) => [...prev, selectedIndex]);
     const nextScore = score + (selectedOption ? 1 : -1);
     setScore(nextScore);
     const nextIndex = questionIndex + 1;
 
     if (nextIndex >= v2questions.current.length) {
-      alert(`Quiz Over! Your final score is: ${nextScore}`);
+      // alert(`Quiz Over! Your final score is: ${nextScore}`);
+      setShowSummery(true);
       setGameOver(true);
       return;
     }
@@ -99,6 +103,8 @@ const Single: React.FC = () => {
   const startGame = (): void => {
     if (!isQuizReady || v2questions.current.length === 0) return;
     setScore(0);
+    setUserAnswer([]);
+    setShowSummery(false);
     setGameOver(false);
     loadQuestion(0);
     setIsQuizReady(false);
@@ -106,7 +112,7 @@ const Single: React.FC = () => {
 
   return (
     <>
-
+      <Summery show={showSummery} quiz={v2questions.current} disableSummery = {setShowSummery} useranswer = {userAnswer} />
       {gameOver ? (
         <div className="game-over">
           <h2>Start new Game</h2>

@@ -18,6 +18,13 @@ class SocketService {
         };
     }
 
+    joinRoom(roomId: string) {
+        this.sendMessage({
+            event: "joinRoom",
+            payload: { roomId, playerName: "Player1" } // Replace with actual player name
+        });
+    }
+
     sendMessage(message: SocketMessage) {
         if (this.socket && this.socket.readyState === WebSocket.OPEN) {
             this.socket.send(JSON.stringify(message));
