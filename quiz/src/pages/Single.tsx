@@ -5,6 +5,7 @@ import Summery from '../components/Summery.tsx';
 import fetchQuestions from '../services/question.api.ts';
 import cleanQuestions from '../utils/cleanQuestions.ts';
 import {Question} from '../types/question.type.ts';
+import { QuizReviewQuestion } from '../types/general.type.ts';
 import { useRef,useState, useEffect, useCallback } from "react";
 
 // type Question = {
@@ -23,7 +24,7 @@ const Single: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<boolean | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [showSummery, setShowSummery] = useState<boolean>(false);
-  const [userAnswer, setUserAnswer] = useState<number[]>([]);
+  const [reviewQuestions, setReviewQuestions] = useState<QuizReviewQuestion[]>([]);
   const v2questions = useRef<Question[]>([]);
 
   const loadQuestion = useCallback(async (index: number) => {
@@ -79,7 +80,19 @@ const Single: React.FC = () => {
 
   const handleNextbtn = () => {
     if (selectedIndex === null || selectedOption === null) return;
-    setUserAnswer((prev) => [...prev, selectedIndex]);
+
+    const currentAnswer = answers[selectedIndex] ?? null;
+    if (currentQuiz) {
+      setReviewQuestions((prev) => [
+        ...prev,
+        {
+          ...currentQuiz,
+          options: [...answers],
+          selectedAnswer: currentAnswer,
+        },
+      ]);
+    }
+
     const nextScore = score + (selectedOption ? 1 : -1);
     setScore(nextScore);
     const nextIndex = questionIndex + 1;
@@ -103,7 +116,7 @@ const Single: React.FC = () => {
   const startGame = (): void => {
     if (!isQuizReady || v2questions.current.length === 0) return;
     setScore(0);
-    setUserAnswer([]);
+    setReviewQuestions([]);
     setShowSummery(false);
     setGameOver(false);
     loadQuestion(0);
@@ -112,7 +125,7 @@ const Single: React.FC = () => {
 
   return (
     <>
-      <Summery show={showSummery} quiz={v2questions.current} disableSummery = {setShowSummery} useranswer = {userAnswer} />
+      <Summery show={showSummery} quiz={reviewQuestions} disableSummery={setShowSummery} />
       {gameOver ? (
         <div className="game-over">
           <h2>Start new Game</h2>
