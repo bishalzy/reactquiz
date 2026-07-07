@@ -1,63 +1,172 @@
-export type socketEvent = "gameStart" | "gameEnd" | "playerJoined" | "playerLeft" | "newQuestion" | "answerResult" | "createRoom" | "joinRoom" | "leaveRoom";
+// ── Client → Server events ──────────────────────────────────────────
 
-type GameStartPayload = {
-  gameId: string;
-  players: string[];
-};
+export type ClientSocketEvent =
+  | 'room:create'
+  | 'room:join'
+  | 'room:ready'
+  | 'room:leave'
+  | 'room:get'
+  | 'game:start'
+  | 'game:answer'
+  | 'ping';
 
-type GameEndPayload = {
-  gameId: string;
-  winner: string;
-};
+// ── Server → Client events ──────────────────────────────────────────
 
-type PlayerJoinedPayload = {
-  gameId: string;
-  playerName: string;
-};
+export type ServerSocketEvent =
+  | 'room:created'
+  | 'room:joined'
+  | 'room:left'
+  | 'room:state'
+  | 'room:updated'
+  | 'game:started'
+  | 'game:question'
+  | 'game:result'
+  | 'game:answer:ack'
+  | 'game:ended'
+  | 'error'
+  | 'pong';
 
-type PlayerLeftPayload = {
-  gameId: string;
-  playerName: string;
-};
+// ── Shared room / player types ──────────────────────────────────────
 
-type NewQuestionPayload = {
-  gameId: string;
-  question: string;
-};
+export type RoomPhase = 'lobby' | 'starting' | 'active' | 'finished';
 
-type AnswerResultPayload = {
-  gameId: string;
-  playerName: string;
-  selectedAnswer: number;
-};
-
-type CreateRoomPayload = {
-  playerName: string;
-};
-
-type JoinRoomPayload = {
-  roomId: string;
-  playerName: string;
-};
-
-type LeaveRoomPayload = {
-  roomId: string;
-  playerName: string;
+export interface PublicPlayerState {
+  userId: number;
+  username: string;
+  ready: boolean;
+  connected: boolean;
+  score: number;
+  joinedAt: number;
 }
 
-type PayloadMap = {
-  gameStart: GameStartPayload;
-  gameEnd: GameEndPayload;
-  playerJoined: PlayerJoinedPayload;
-  playerLeft: PlayerLeftPayload;
-  newQuestion: NewQuestionPayload;
-  answerResult: AnswerResultPayload;
-  createRoom: CreateRoomPayload;
-  joinRoom: JoinRoomPayload;
-  leaveRoom: LeaveRoomPayload;
-};
+export interface PublicQuestionState {
+  type: 'multiple' | 'boolean';
+  difficulty: 'easy' | 'medium' | 'hard';
+  category: string;
+  question: string;
+  options: string[];
+}
 
-export type SocketMessage = {
-  event: socketEvent;
-  payload: PayloadMap[socketEvent];
-};
+export interface PublicRoomState {
+  roomCode: string;
+  hostUserId: number;
+  hostUsername: string;
+  phase: RoomPhase;
+  createdAt: number;
+  updatedAt: number;
+  lastActivityAt: number;
+  minPlayers: number;
+  maxPlayers: number;
+  questionCount: number;
+  questionTimeoutMs: number;
+  category?: number;
+  difficulty?: string;
+  type?: string;
+  currentQuestionIndex: number;
+  currentQuestionStartedAt: number | null;
+  currentQuestionEndsAt: number | null;
+  players: PublicPlayerState[];
+  currentQuestion: PublicQuestionState | null;
+}
+
+// ── Client payloads ─────────────────────────────────────────────────
+
+export interface CreateRoomPayload {
+  minPlayers?: number;
+  maxPlayers?: number;
+  questionCount?: number;
+  questionTimeoutMs?: number;
+  category?: number;
+  difficulty?: string;
+  type?: string;
+}
+
+export interface JoinRoomPayload {
+  roomCode: string;
+}
+
+export interface ReadyRoomPayload {
+  roomCode: string;
+  ready: boolean;
+}
+
+export interface LeaveRoomPayload {
+  roomCode?: string;
+}
+
+export interface StartGamePayload {
+  roomCode: string;
+}
+
+export interface SubmitAnswerPayload {
+  roomCode: string;
+  answer: string;
+}
+
+export interface GetRoomPayload {
+  roomCode?: string;
+}
+
+// ── Server payloads ─────────────────────────────────────────────────
+
+export interface RoomCreatedPayload {
+  room: PublicRoomState;
+}
+
+export interface RoomJoinedPayload {
+  room: PublicRoomState;
+}
+
+export interface RoomStatePayload {
+  room: PublicRoomState;
+}
+
+export interface RoomUpdatedPayload {
+  room: PublicRoomState;
+}
+
+export interface GameStartedPayload {
+  roomCode: string;
+  room: PublicRoomState;
+  scores: Record<string, number>;
+}
+
+export interface GameQuestionPayload {
+  roomCode: string;
+  questionIndex: number;
+  totalQuestions: number;
+  question: PublicQuestionState;
+  endsAt: number | null;
+  scores: Record<string, number>;
+}
+
+export interface GameResultPayload {
+  roomCode: string;
+  questionIndex: number;
+  reason: 'timeout' | 'all-answered';
+  correctAnswer: string;
+  scores: Record<string, number>;
+}
+
+export interface GameEndedPayload {
+  roomCode: string;
+  finalScores: Record<string, number>;
+  winners: { userId: number; username: string; score: number }[];
+}
+
+export interface ErrorPayload {
+  message: string;
+  roomCode?: string;
+}
+
+// ── Generic message wrappers ────────────────────────────────────────
+
+export interface SocketMessage {
+  event: ClientSocketEvent;
+  payload: Record<string, unknown>;
+}
+
+export interface ServerSocketMessage {
+  event: ServerSocketEvent;
+  payload: Record<string, unknown>;
+}

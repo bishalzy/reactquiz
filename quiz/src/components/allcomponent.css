@@ -5,21 +5,29 @@
     box-sizing: border-box;
 } */
 
-.logingithub{
+.github-login-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #24292e;
+    color: white;
     border: none;
-    border-radius: 5vh;
+    border-radius: 0.5rem;
+    padding: 0.6rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
     cursor: pointer;
-    padding: 0;
-    overflow: hidden;
-    flex-shrink: 0;
-    height: auto;
-    width: 2vw;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    text-decoration: none;
 }
 
-.githubimage{
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
+.github-login-btn:hover {
+    background-color: #000000;
+    transform: translateY(-1px);
+}
+
+.github-login-btn:active {
+    transform: translateY(0);
 }
 
 .avatar-container{
