@@ -1,187 +1,194 @@
-/* 
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-} */
-
 .github-login-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background-color: #24292e;
-    color: white;
-    border: none;
-    border-radius: 0.5rem;
-    padding: 0.6rem 1rem;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-    text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  border: var(--border-width) solid var(--primary-color);
+  border-radius: var(--border-radius);
+  padding: 0.6rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
 }
 
 .github-login-btn:hover {
-    background-color: #000000;
-    transform: translateY(-1px);
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
 .github-login-btn:active {
-    transform: translateY(0);
+  transform: translateY(0);
 }
 
-.avatar-container{
-    position: relative;
+.avatar-container {
+  position: relative;
 }
 
-
-.summery-show{
-    position: fixed;
-    inset: 0;
-    z-index: 40;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: clamp(1rem, 3vw, 2rem);
+.summery-show {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 3vw, 2rem);
 }
 
-.summery-hide{
-    display: none;
+.summery-hide {
+  display: none;
 }
 
 .summery-backdrop {
-    position: absolute;
-    inset: 0;
-    background: rgba(9, 16, 27, 0.78);
-    backdrop-filter: blur(0.35rem);
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
 }
 
 .summery-panel {
-    position: relative;
-    z-index: 1;
-    width: min(92vw, 72rem);
-    max-height: 88vh;
-    overflow: auto;
-    border-radius: 1.5rem;
-    padding: clamp(1rem, 2vw, 1.5rem);
-    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-    color: #0f172a;
-    box-shadow: 0 1.5rem 3rem rgba(15, 23, 42, 0.22);
-    border: 0.0625rem solid rgba(148, 163, 184, 0.22);
+  position: relative;
+  z-index: 1;
+  width: min(92vw, 72rem);
+  max-height: 88vh;
+  overflow: auto;
+  border-radius: var(--border-radius);
+  padding: var(--spacing-xl);
+  background: var(--surface-color);
+  color: var(--text-main);
+  box-shadow: var(--shadow-main);
+  border: var(--border-width) solid var(--border-color);
 }
 
 .summery-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 1.25rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+  border-bottom: var(--border-width) solid var(--border-color);
+  padding-bottom: var(--spacing-md);
 }
 
-.summery-header h2,
-.summery-header p,
-.summery-card h3,
-.summery-card p {
-    margin: 0;
+.summery-header h2 {
+  font-size: 2rem;
+}
+
+.summery-header p {
+  color: var(--text-muted);
+  font-weight: 600;
 }
 
 .summery-eyebrow {
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    font-size: 0.72rem;
-    color: #2563eb;
-    margin-bottom: 0.35rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.875rem;
+  font-weight: bold;
+  color: var(--text-main);
+  margin-bottom: var(--spacing-sm);
 }
 
 .summery-close {
-    border: 0;
-    border-radius: 999px;
-    padding: 0.75rem 1.25rem;
-    font-weight: 700;
-    background: #f97316;
-    color: #fff;
-    cursor: pointer;
-    box-shadow: 0 0.75rem 1.5rem rgba(249, 115, 22, 0.22);
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 0.5rem 1rem;
+  font-weight: 700;
+  background: var(--surface-alt);
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.summery-close:hover {
+  background: var(--text-main);
+  color: var(--text-light);
 }
 
 .summery-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
 }
 
 .summery-card {
-    background: rgba(248, 250, 252, 0.95);
-    border: 0.0625rem solid rgba(148, 163, 184, 0.22);
-    border-radius: 1.25rem;
-    padding: 1rem;
+  background: var(--bg-color);
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-lg);
 }
 
 .summery-card-head {
-    display: flex;
-    gap: 0.9rem;
-    align-items: flex-start;
-    margin-bottom: 1rem;
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: flex-start;
+  margin-bottom: var(--spacing-md);
 }
 
 .summery-step {
-    flex: 0 0 auto;
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 999px;
-    display: grid;
-    place-items: center;
-    font-weight: 800;
-    background: linear-gradient(135deg, #22c55e, #84cc16);
-    color: #08111f;
+  flex: 0 0 auto;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  background: var(--text-main);
+  color: var(--text-light);
 }
 
 .summery-card h3 {
-    line-height: 1.35;
-    margin-bottom: 0.35rem;
+  line-height: 1.4;
+  margin-bottom: var(--spacing-sm);
+  font-size: 1.125rem;
 }
 
 .summery-card p {
-    color: #475569;
-    font-size: 0.92rem;
+  color: var(--text-muted);
+  font-weight: 600;
 }
 
 .summery-options {
-    display: grid;
-    gap: 0.75rem;
+  display: grid;
+  gap: var(--spacing-sm);
 }
 
 .summery-option {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    min-height: 3rem;
-    padding: 0.8rem 1rem;
-    border-radius: 0.9rem;
-    border: 0.0625rem solid rgba(148, 163, 184, 0.18);
-    background: #ffffff;
-    color: #0f172a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  min-height: 3rem;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-sm);
+  border: var(--border-width) solid var(--border-color);
+  background: var(--surface-color);
+  color: var(--text-main);
+  font-weight: 500;
 }
 
 .summery-option strong {
-    font-size: 0.78rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .summery-option-correct {
-    background: rgba(34, 197, 94, 0.18);
-    border-color: rgba(34, 197, 94, 0.55);
-    color: #14532d;
+  background: var(--success-bg);
+  border-color: var(--success-border);
+  color: var(--success-text);
+  font-weight: bold;
 }
 
 .summery-option-picked-correct {
-    box-shadow: inset 0 0 0 0.0625rem rgba(34, 197, 94, 0.35);
+  border-width: 3px;
+  border-color: var(--success-text);
 }
 
 .summery-option-wrong {
-    background: rgba(239, 68, 68, 0.18);
-    border-color: rgba(239, 68, 68, 0.55);
-    color: #7f1d1d;
+  background: var(--error-bg);
+  border-color: var(--error-border);
+  color: var(--error-text);
 }

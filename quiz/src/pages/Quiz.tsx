@@ -2,28 +2,28 @@ import './quiz.css';
 import { Link, Outlet } from 'react-router-dom';
 import Avatar from '../components/avatar';
 
-const Quiz:React.FC = () => {
-
-
- 
+const Quiz: React.FC = () => {
 
 
 
-    return(
+
+
+
+    return (
         <div className="quiz">
             <div className="nav-bar">
                 <Link to={"/"} className='change-mode'><p>Home</p></Link>
-                <Link to={"/singleplayer"} className='change-mode'><p>SinglePlayer MOde</p></Link>
-                <Link to={"/multiplayer"} className='change-mode'><p>MultiPlayer MOde</p></Link>
-                <Avatar/>
+                <Link to={"/singleplayer"} className='change-mode'><p>Singleplayer Mode</p></Link>
+                <Link to={"/multiplayer"} className='change-mode'><p>Multiplayer Mode</p></Link>
+                <Avatar />
             </div>
             <div className="box">
 
-                <Outlet/>
-                
+                <Outlet />
+
             </div>
-           
-            <div className="footer">{new Date().getFullYear()} All Rights Reserved @</div>
+
+            <div className="footer">{new Date().getFullYear()} blah blah blah </div>
 
         </div>
     )

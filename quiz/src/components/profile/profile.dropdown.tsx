@@ -9,17 +9,15 @@ const ProfileDropdown = (props:{ isOpen: boolean }) => {
     window.location.reload();
   }
 
-  // const handleProfile = () => {
-  //   // Implement profile navigation here
-  //   console.log("Profile clicked");
-  // }
-
-
   return (
     <div className={`profile-dropdown ${props.isOpen ? "open" : ""}`}>
       <ul>
-        <li><Link to="/profile">Profile</Link></li>
-        <li onClick={handleLogout}>Logout</li>
+        <li>
+          <Link to="/profile">Profile</Link>
+        </li>
+        <li>
+          <button onClick={handleLogout}>Logout</button>
+        </li>
       </ul>
     </div>
   );

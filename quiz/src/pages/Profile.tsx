@@ -1,6 +1,6 @@
 import { getUserProfile } from "../services/user.api";
 import { useEffect, useState } from "react";
-import type {UserAuthData} from "../types/userdata.types";
+import type { UserAuthData } from "../types/userdata.types";
 
 const Profile = () => {
   const [userProfile, setUserProfile] = useState<UserAuthData | null>(null);
@@ -38,7 +38,6 @@ const Profile = () => {
           src={userProfile?.avatar_url ?? "/default-avatar.png"}
           alt="Profile"
         />
-        <h1>Profile</h1>
         <div className="profile-meta">
           <h2>{userProfile?.username ?? "Guest User"}</h2>
           <p>{userProfile?.email ?? "No email available"}</p>
@@ -46,7 +45,7 @@ const Profile = () => {
       </div>
       <div className="game-history">
         <h1>Game History</h1>
-        <p>Game history will be displayed here.</p> 
+        <p>Game history will be displayed here.</p>
       </div>
 
     </div>

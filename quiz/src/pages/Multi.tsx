@@ -47,7 +47,7 @@ const ConnectionBadge = ({ connected }: { connected: boolean }) => (
 
 const ErrorToast = ({ message, onDismiss }: { message: string; onDismiss: () => void }) => (
   <div className="mp-error">
-    <span>⚠️ {message}</span>
+    <span> {message}</span>
     <button onClick={onDismiss}>×</button>
   </div>
 );
@@ -74,7 +74,7 @@ const MenuPhase = ({
 
   return (
     <div className="mp-menu">
-      <h2>⚡ Multiplayer Quiz</h2>
+      <h2>Multiplayer</h2>
       <div className="mp-menu-actions">
         <button
           className="mp-btn mp-btn--primary"
@@ -127,12 +127,12 @@ const LobbyPhase = ({
   const isHost = room.hostUserId === userId;
   const myPlayer = room.players.find((p) => p.userId === userId);
   const connectedPlayers = room.players.filter((p) => p.connected);
-  const allReady = connectedPlayers.length >= room.minPlayers && connectedPlayers.every((p) => p.ready);
+  const allReady = connectedPlayers.length >= room.minPlayers && connectedPlayers.every((p) => p.userId === room.hostUserId || p.ready);
 
   return (
     <div className="mp-lobby">
       <div className="mp-lobby-header">
-        <h2>🎮 Game Lobby</h2>
+        <h2>Game Lobby</h2>
         <div className="mp-room-code" title="Click to copy" onClick={() => navigator.clipboard?.writeText(room.roomCode)}>
           <span className="mp-room-code-label">Room</span>
           {room.roomCode}
@@ -140,10 +140,12 @@ const LobbyPhase = ({
       </div>
 
       <div className="mp-lobby-settings">
-        <span>👥 {connectedPlayers.length}/{room.maxPlayers} players</span>
-        <span>❓ {room.questionCount} questions</span>
-        <span>⏱ {room.questionTimeoutMs / 1000}s per question</span>
-        {room.difficulty && <span>📊 {room.difficulty}</span>}
+        <span>{room.questionCount} questions</span>
+        <span>{room.questionTimeoutMs / 1000}s per question</span>
+        {room.difficulty && <span>{room.difficulty}</span>}
+      </div>
+      <div style={{ marginTop: '0.5rem', color: '#64748b', fontSize: '0.9rem', textAlign: 'center' }}>
+        Note: Only Computer Science questions are used in multiplayer.
       </div>
 
       <div className="mp-players-list">
@@ -160,7 +162,7 @@ const LobbyPhase = ({
                 {player.userId === room.hostUserId && <span className="mp-badge mp-badge--host">Host</span>}
                 {!player.connected ? (
                   <span className="mp-badge mp-badge--disconnected">Offline</span>
-                ) : player.ready ? (
+                ) : player.userId === room.hostUserId ? null : player.ready ? (
                   <span className="mp-badge mp-badge--ready">Ready</span>
                 ) : (
                   <span className="mp-badge mp-badge--not-ready">Not Ready</span>
@@ -172,12 +174,14 @@ const LobbyPhase = ({
       </div>
 
       <div className="mp-lobby-actions">
-        <button
-          className={`mp-btn ${myPlayer?.ready ? 'mp-btn--ghost' : 'mp-btn--ready'}`}
-          onClick={() => onToggleReady(room.roomCode, !myPlayer?.ready)}
-        >
-          {myPlayer?.ready ? 'Unready' : '✓ Ready Up'}
-        </button>
+        {!isHost && (
+          <button
+            className={`mp-btn ${myPlayer?.ready ? 'mp-btn--ghost' : 'mp-btn--ready'}`}
+            onClick={() => onToggleReady(room.roomCode, !myPlayer?.ready)}
+          >
+            {myPlayer?.ready ? 'Unready' : 'Ready Up'}
+          </button>
+        )}
 
         {isHost && (
           <button
@@ -186,7 +190,7 @@ const LobbyPhase = ({
             onClick={() => onStartGame(room.roomCode)}
             title={!allReady ? `Need ${room.minPlayers} ready players to start` : undefined}
           >
-            🚀 Start Game
+            Start Game
           </button>
         )}
 
@@ -225,7 +229,7 @@ const ActivePhase = ({
           Question {question.questionIndex + 1} / {question.totalQuestions}
         </span>
         <div className={`mp-timer ${timerClass}`}>
-          ⏱ {countdown}s
+          {countdown}s
         </div>
       </div>
 
@@ -251,7 +255,7 @@ const ActivePhase = ({
               onClick={() => !disabled && onSubmitAnswer(roomCode, option)}
             >
               <span className="mp-option-marker">
-                {isSelected ? '✓' : String.fromCharCode(65 + idx)}
+                {String.fromCharCode(65 + idx)}
               </span>
               <span>{decodedOption}</span>
             </div>
@@ -261,7 +265,7 @@ const ActivePhase = ({
 
       {answerSubmitted && (
         <div style={{ textAlign: 'center', color: '#64748b', fontSize: '0.85rem', marginTop: '0.5rem' }}>
-          ✓ Answer submitted — waiting for other players…
+          Answer submitted — waiting for other players...
         </div>
       )}
 
@@ -288,18 +292,20 @@ const ActivePhase = ({
 const ResultPhase = ({
   result,
   selectedAnswer,
+  isLastQuestion,
 }: {
   result: NonNullable<ReturnType<typeof useMultiplayer>['state']['lastResult']>;
   selectedAnswer: string | null;
+  isLastQuestion: boolean;
 }) => {
   const wasCorrect = selectedAnswer !== null && selectedAnswer === result.correctAnswer;
 
   return (
     <div className="mp-result">
-      <div className="mp-result-icon">{wasCorrect ? '🎉' : '😢'}</div>
+
       <h3>{wasCorrect ? 'Correct!' : selectedAnswer ? 'Wrong!' : 'Time\'s Up!'}</h3>
       <div className="mp-result-answer">
-        ✓ Correct answer: {decodeHtml(result.correctAnswer)}
+        Correct answer: {decodeHtml(result.correctAnswer)}
       </div>
 
       <div className="mp-result-scores">
@@ -313,7 +319,7 @@ const ResultPhase = ({
           ))}
       </div>
 
-      <div className="mp-result-waiting">Next question loading…</div>
+      <div className="mp-result-waiting">{isLastQuestion ? 'Game over! Calculating results...' : 'Next question loading…'}</div>
     </div>
   );
 };
@@ -334,7 +340,7 @@ const FinishedPhase = ({
 
   return (
     <div className="mp-finished">
-      <div className="mp-trophy">🏆</div>
+
       <h2>Game Over!</h2>
       {winner && <div className="mp-winner">{winner.username} wins with {winner.score} points!</div>}
 
@@ -427,7 +433,11 @@ const Multi: React.FC = () => {
       )}
 
       {state.phase === 'result' && state.lastResult && (
-        <ResultPhase result={state.lastResult} selectedAnswer={state.selectedAnswer} />
+        <ResultPhase 
+          result={state.lastResult} 
+          selectedAnswer={state.selectedAnswer} 
+          isLastQuestion={state.lastResult.questionIndex === (state.room?.questionCount ?? 0) - 1}
+        />
       )}
 
       {state.phase === 'finished' && state.gameEnded && (
